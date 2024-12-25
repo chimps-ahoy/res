@@ -2,11 +2,18 @@
 #include <stdlib.h>
 #include <string.h>
 
+#define WSPACE " \t\n"
+#define DEFINE '@'
 #define LDELIM "{{"
 #define RDELIM "}}"
 
 void expand(char *);
 void eval(char *);
+
+void define(char *s)
+{
+	//interpret s as a definition and add it to the table
+}
 
 char *lookup(char *s)
 {
@@ -68,6 +75,11 @@ int main(void)
 	int endl;
 	char  *line = NULL;
 	size_t llen = 0;
-	while ((endl = getline(&line, &llen, stdin)) > 0)
-		expand(line);
+	while ((endl = getline(&line, &llen, stdin)) > 0) {
+		char *strt = line + strspn(line, WSPACE);
+		if (*strt == DEFINE)
+			define(strt+1);
+		else
+			expand(strt);
+	}
 }
