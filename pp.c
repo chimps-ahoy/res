@@ -8,20 +8,32 @@
 void expand(char *);
 void eval(char *);
 
+char *lookup(char *s)
+{
+	return NULL;
+}
+
+int gt2tok(char *s)
+{
+	return 1;
+}
+
 void eval(char *s)
 {
 	if (!s || (s && !*s))
 		return;
 
-	FILE *p = popen(s, "r");
-	if (!p)
-		return;
-
 	char  *val = NULL;
 	size_t len = 0;
-	int endl = getdelim(&val, &len, EOF, p);
-
-	pclose(p);
+	if (gt2tok(s) || !(val = lookup(s))) {
+		FILE *p = popen(s, "r");
+		if (!p)
+			return;
+		int endl = getdelim(&val, &len, EOF, p);
+		pclose(p);
+	} else if (val) {
+		val = strdup(val);
+	}
 	expand(val);
 	free(val);
 }
