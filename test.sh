@@ -1,6 +1,7 @@
 #!/bin/sh
 
-rm actual
+rm -f actual expected
+touch actual expected
 
 gcc pp.c &&
 ./a.out > actual <<EOF
