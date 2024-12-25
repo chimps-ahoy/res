@@ -44,7 +44,11 @@ void eval(char *s)
 	if (gt2tok(s) || !(val = lookup(s))) {
 		sheval(s, &val, &len);
 	} else if (val) {
-		val = strdup(val);
+		char *tmp = strdup(val);
+		if (!tmp)
+			fputs(val, stdout);
+		else
+			val = tmp;
 	}
 	expand(val);
 	free(val);
