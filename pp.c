@@ -18,6 +18,15 @@ int gt2tok(char *s)
 	return 1;
 }
 
+void sheval(char *s, char **buf, size_t *lbuf)
+{
+	FILE *p = popen(s, "r");
+	if (!p)
+		return;
+	int endl = getdelim(buf, lbuf, EOF, p);
+	pclose(p);
+}
+
 void eval(char *s)
 {
 	if (!s || (s && !*s))
@@ -26,11 +35,7 @@ void eval(char *s)
 	char  *val = NULL;
 	size_t len = 0;
 	if (gt2tok(s) || !(val = lookup(s))) {
-		FILE *p = popen(s, "r");
-		if (!p)
-			return;
-		int endl = getdelim(&val, &len, EOF, p);
-		pclose(p);
+		sheval(s, &val, &len);
 	} else if (val) {
 		val = strdup(val);
 	}
