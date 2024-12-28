@@ -1,31 +1,27 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+#include "htable.h"
 
 #define WSPACE " \t\n"
 #define DEFINE '@'
 #define LDELIM "{{"
 #define RDELIM "}}"
 
-void expand(char *);
-void eval(char *);
+static void expand(char *);
+static void eval(char *);
 
-void define(char *s)
+static void define(char *s)
 {
 	//interpret s as a definition and add it to the table
 }
 
-char *lookup(char *s)
-{
-	return NULL;
-}
-
-int gt2tok(char *s)
+static int gt2tok(char *s)
 {
 	return 1;
 }
 
-void sheval(char *s, char **buf, size_t *lbuf)
+static void sheval(char *s, char **buf, size_t *lbuf)
 {
 	FILE *p = popen(s, "r");
 	if (!p)
@@ -34,7 +30,7 @@ void sheval(char *s, char **buf, size_t *lbuf)
 	pclose(p);
 }
 
-void eval(char *s)
+static void eval(char *s)
 {
 	if (!s || (s && !*s))
 		return;
@@ -54,7 +50,7 @@ void eval(char *s)
 	free(val);
 }
 
-void expand(char *s)
+static void expand(char *s)
 {
 	if (!s || (s && !*s))
 		return;
@@ -76,6 +72,7 @@ void expand(char *s)
 
 int main(void)
 {
+	inittab(13, 1);
 	int endl;
 	char  *line = NULL;
 	size_t llen = 0;
