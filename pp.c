@@ -1,9 +1,9 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+#include "util.h"
 #include "htable.h"
 
-#define WSPACE " \t\n"
 #define DEFINE '@'
 #define LDELIM "{{"
 #define RDELIM "}}"
@@ -21,7 +21,10 @@ static void define(char *s)
 
 static int gt2tok(char *s)
 {
-	return 1;
+	s += strspn(s, WSPACE);
+	char *z = s + strcspn(s, WSPACE);
+	z += strspn(z, WSPACE);
+	return !(s == z || !*z);
 }
 
 static void sheval(char *s, char **buf, size_t *lbuf)
