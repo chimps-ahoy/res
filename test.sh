@@ -3,8 +3,8 @@
 rm -f actual expected
 touch actual expected
 
-gcc pp.c &&
-./a.out > actual <<EOF
+make res &&
+./res > actual <<EOF
 @foo bar
 foo {{ ls }} bar
 quux
