@@ -38,7 +38,7 @@ static void sheval(char *s, char **buf, size_t *lbuf)
 
 static void eval(char *s)
 {
-	if (!s || (s && !*s))
+	if (!s || !*s)
 		return;
 
 	char  *val = NULL;
@@ -58,7 +58,7 @@ static void eval(char *s)
 
 static void expand(char *s)
 {
-	if (!s || (s && !*s))
+	if (!s || !*s)
 		return;
 
 	char *strt = strstr(s, LDELIM);
