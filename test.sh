@@ -8,7 +8,7 @@ make res &&
 @foo bar
 foo {{ ls }} bar
 quux
-{{ foo }}
+{{ foo }} {{ bar }}
 {{ ls }} baz
 @bar foo
 {{bar }}
@@ -18,7 +18,7 @@ printf '%s' 'foo ' > expected
 ls >> expected
 printf '%s\n' ' bar' >> expected
 printf '%s\n' 'quux' >> expected
-printf '%s\n' 'bar' >> expected
+printf '%s\n' 'bar ' >> expected
 ls >> expected
 printf '%s\n' ' baz' >> expected
 printf '%s\n' 'foo' >> expected
