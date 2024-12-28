@@ -11,21 +11,28 @@
 static void expand(char *);
 static void eval(char *);
 
+#define SPLIT(s,z) \
+do {\
+	s += strspn(s, WSPACE);\
+	z = s + strcspn(s, WSPACE);\
+	z += strspn(z, WSPACE);\
+} while (0)
+
 static void define(char *s)
 {
-	char *k = strtok(s, WSPACE);
-	char *v = strtok(NULL, WSPACE);
-	v = (v) ? v : "";
-	insert(k, v);
+	char *z;
+	SPLIT(s,z);
+	*(s + strcspn(s, WSPACE)) = 0;
+	insert(s, z);
 }
 
 static int gt2tok(char *s)
 {
-	s += strspn(s, WSPACE);
-	char *z = s + strcspn(s, WSPACE);
-	z += strspn(z, WSPACE);
+	char *z;
+	SPLIT(s,z);
 	return s != z && *z;
 }
+#undef SPLIT
 
 static void sheval(char *s, char **buf, size_t *lbuf)
 {
@@ -81,14 +88,17 @@ int main(void)
 {
 	if (!inittab(13, 1))
 		return EXIT_FAILURE;
+	ssize_t endl;
 	char  *line = NULL;
 	size_t llen = 0;
-	while (getline(&line, &llen, stdin) > 0) {
+	while ((endl = getline(&line, &llen, stdin)) > 0) {
 		char *strt = line + strspn(line, WSPACE);
-		if (*strt == DEFINE)
+		if (*strt == DEFINE) {
+			line[endl-1] = 0;
 			define(strt+1);
-		else
+		} else {
 			expand(strt);
+		}
 	}
 	return EXIT_SUCCESS;
 }
