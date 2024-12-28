@@ -33,12 +33,14 @@ static int ecompar(void const *_a, void const *_b)
 
 char const *lookup(char const *s)
 {
-	char *z = strtok(strdup(s), WSPACE);
+	char *_z = strdup(s);
+	if (!_z) return NULL;
+	char *z = strtok(_z, WSPACE);
 	unsigned long i = hash(z) % k;
 	struct entry *entries = htable + i*epk;
 	struct entry  entry   = { .k = z };
 	struct entry *fin = bsearch(&entry, entries, epk, sizeof(*htable), ecompar);
-	free(z);
+	free(_z);
 	if (fin)
 		return fin->v;
 	else

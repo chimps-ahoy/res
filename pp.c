@@ -60,15 +60,16 @@ static void expand(char *s)
 {
 	if (!s || (s && !*s))
 		return;
+
 	char *strt = strstr(s, LDELIM);
 	char *end  = "";
 	if (strt) {
 		*strt = '\0';
-		strt += sizeof(LDELIM);
+		strt += sizeof(LDELIM) - 1;
 		end = strstr(strt, RDELIM);
 		if (end) {
 			*end = '\0';
-			end += sizeof(RDELIM);
+			end += sizeof(RDELIM) - 1;
 		}
 	}
 	fputs(s, stdout);
