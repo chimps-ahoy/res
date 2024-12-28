@@ -76,8 +76,8 @@ static void _insert(char const *s, char const *v, unsigned long i)
 				.k = s,
 				.v = v,
 			};
-			return;
 			qsort(entries, epk, sizeof(*entries), ecompar);
+			return;
 		}
 	}
 	resize(epk);
