@@ -13,7 +13,10 @@ static void eval(char *);
 
 static void define(char *s)
 {
-	//interpret s as a definition and add it to the table
+	char *k = strtok(s, WSPACE);
+	char *v = strtok(NULL, WSPACE);
+	v = (v) ? v : "";
+	insert(k, v);
 }
 
 static int gt2tok(char *s)
