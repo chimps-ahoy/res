@@ -26,8 +26,12 @@ static int ecompar(void const *_a, void const *_b)
 {
 	struct entry *a = (struct entry *)_a;
 	struct entry *b = (struct entry *)_b;
-	if (!a->k || !b->k)
+	if (!a->k && b-> k)
+		return 1;
+	if (a->k && !b->k)
 		return -1;
+	if (!a->k && !b->k)
+		return 0;
 	return strcmp(a->k, b->k);
 }
 
@@ -73,6 +77,7 @@ static void _insert(char const *s, char const *v, unsigned long i)
 				.v = v,
 			};
 			return;
+			qsort(entries, epk, sizeof(*entries), ecompar);
 		}
 	}
 	resize(epk);
