@@ -14,9 +14,9 @@ EOF
 
 printf '%s' 'foo ' > expected
 ls >> expected
-printf '%s\n' 'bar' >> expected
+printf '%s\n' ' bar' >> expected
 printf '%s\n' 'quux' >> expected
 ls >> expected
-printf '%s\n' 'baz' >> expected
+printf '%s\n' ' baz' >> expected
 
 cmp actual expected && echo 'pass' || echo 'fail'
