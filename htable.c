@@ -51,7 +51,10 @@ static void resize(size_t n)
 {
 	size_t t = epk * k;
 	epk = n;
-	htable = realloc(htable, k * epk * sizeof(*htable));
+	struct entry *new = realloc(htable, k * epk * sizeof(*htable));
+	if (!new)
+		return;
+	htable = new;
 
 	size_t i, c;
 	for (i = c = epk - n; i < epk * k; i += epk, c += epk - n) {
