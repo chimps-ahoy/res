@@ -83,6 +83,7 @@ void insert(char const *s, char const *v)
 {
 	unsigned long i = hash(s) % k;
 	char *s2 = strdup(s), *v2 = strdup(v);
+	/* no need to check these strdups. _insert is well behaved for NULL inputs */
 	_insert(s2, v2, i);
 }
 
