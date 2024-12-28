@@ -24,7 +24,7 @@ static int gt2tok(char *s)
 	s += strspn(s, WSPACE);
 	char *z = s + strcspn(s, WSPACE);
 	z += strspn(z, WSPACE);
-	return !(s == z || !*z);
+	return s != z && *z;
 }
 
 static void sheval(char *s, char **buf, size_t *lbuf)
