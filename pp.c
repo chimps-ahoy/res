@@ -32,7 +32,7 @@ static void sheval(char *s, char **buf, size_t *lbuf)
 	FILE *p = popen(s, "r");
 	if (!p)
 		return;
-	int endl = getdelim(buf, lbuf, EOF, p);
+	(void)getdelim(buf, lbuf, EOF, p);
 	pclose(p);
 }
 
@@ -81,10 +81,9 @@ int main(void)
 {
 	if (!inittab(13, 1))
 		return EXIT_FAILURE;
-	int endl;
 	char  *line = NULL;
 	size_t llen = 0;
-	while ((endl = getline(&line, &llen, stdin)) > 0) {
+	while (getline(&line, &llen, stdin) > 0) {
 		char *strt = line + strspn(line, WSPACE);
 		if (*strt == DEFINE)
 			define(strt+1);
