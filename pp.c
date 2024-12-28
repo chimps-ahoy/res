@@ -79,7 +79,8 @@ static void expand(char *s)
 
 int main(void)
 {
-	inittab(13, 1);
+	if (!inittab(13, 1))
+		return EXIT_FAILURE;
 	int endl;
 	char  *line = NULL;
 	size_t llen = 0;
@@ -90,4 +91,5 @@ int main(void)
 		else
 			expand(strt);
 	}
+	return EXIT_SUCCESS;
 }

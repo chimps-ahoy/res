@@ -87,9 +87,12 @@ void insert(char const *s, char const *v)
 	_insert(s2, v2, i);
 }
 
-void inittab(size_t ik, size_t iepk)
+int inittab(size_t ik, size_t iepk)
 {
 	k = ik;
 	epk = iepk;
 	htable = calloc(k * epk, sizeof(*htable));
+	if (!htable)
+		return 0;
+	return 1;
 }
