@@ -40,7 +40,17 @@ static void sheval(char *s, char **buf, size_t *lbuf)
 	if (!p)
 		return;
 	(void)getdelim(buf, lbuf, EOF, p);
-	pclose(p);
+
+	/* This causes us to discard the output of the command if it exits with
+	 * _anything_ other than exit code 0, which _could_ be problematic.
+	 *
+	 * the only solution is to hand roll something with fork(2),
+	 * exec*(3)/system(3), and/or pipe(2) and dup2(2), but that is a lot of
+	 * work so i might do that later if i ever do
+	 *
+	 */
+	if (pclose(p))
+		memset(*buf, 0, *lbuf);
 }
 
 static void eval(char *s)
