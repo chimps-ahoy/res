@@ -50,7 +50,7 @@ char const *lookup(char const *s)
 static void resize(size_t n)
 {
 	size_t t = epk * k;
-	epk = n;
+	epk += n;
 	struct entry *new = realloc(htable, k * epk * sizeof(*htable));
 	if (!new)
 		return;
@@ -75,7 +75,7 @@ static void _insert(char const *s, char const *v, unsigned long i)
 			return;
 		}
 	}
-	resize(epk*2);
+	resize(epk);
 	_insert(s, v, i);
 }
 
