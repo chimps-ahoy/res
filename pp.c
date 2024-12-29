@@ -21,7 +21,7 @@ do {\
 static void define(char *s)
 {
 	char *z;
-	SPLIT(s,z);
+	SPLIT(s, z);
 	*(s + strcspn(s, WSPACE)) = 0;
 	insert(s, z);
 }
@@ -29,7 +29,7 @@ static void define(char *s)
 static int gt2tok(char *s)
 {
 	char *z;
-	SPLIT(s,z);
+	SPLIT(s, z);
 	return s != z && *z;
 }
 #undef SPLIT
@@ -104,8 +104,8 @@ int main(void)
 	while ((endl = getline(&line, &llen, stdin)) > 0) {
 		char *strt = line + strspn(line, WSPACE);
 		if (*strt == DEFINE) {
-			line[endl-1] = 0;
-			define(strt+1);
+			line[endl - 1] = 0;
+			define(strt + 1);
 		} else {
 			expand(strt);
 		}

@@ -8,7 +8,7 @@ static struct entry {
 	const char *v;
 } *htable = NULL;
 
-size_t k = 13;
+size_t k    = 13;
 size_t epk  = 1;
 
 static unsigned long hash(char const *s)
@@ -41,7 +41,7 @@ char const *lookup(char const *s)
 	if (!_z) return NULL;
 	char *z = strtok(_z, WSPACE);
 	unsigned long i = hash(z) % k;
-	struct entry *entries = htable + i*epk;
+	struct entry *entries = htable + i * epk;
 	struct entry  entry   = { .k = z };
 	struct entry *fin = bsearch(&entry, entries, epk, sizeof(*htable), ecompar);
 	free(_z);
@@ -62,14 +62,14 @@ static void resize(size_t n)
 
 	size_t i, c;
 	for (i = c = epk - n; i < epk * k; i += epk, c += epk - n) {
-		memmove(htable+i+n, htable+i, (t-c)*sizeof(*htable));
-		memset(htable+i, 0, n*sizeof(*htable));
+		memmove(htable + i + n, htable + i, (t - c) * sizeof(*htable));
+		memset(htable + i, 0, n * sizeof(*htable));
 	}
 }
 
 static void _insert(char const *s, char const *v, unsigned long i)
 {
-	struct entry *entries = htable + i*epk;
+	struct entry *entries = htable + i * epk;
 	for (size_t i = 0; i < epk; i++) {
 		if (!entries[i].k) {
 			 entries[i] = (struct entry){
