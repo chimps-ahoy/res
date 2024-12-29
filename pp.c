@@ -107,7 +107,7 @@ int main(void)
 			line[endl - 1] = 0;
 			define(strt + 1);
 		} else {
-			expand(strt);
+			expand(line);
 		}
 	}
 	return EXIT_SUCCESS;
