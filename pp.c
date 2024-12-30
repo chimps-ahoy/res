@@ -24,6 +24,7 @@ static void define(char *s)
 	SPLIT(s, z);
 	*(s + strcspn(s, WSPACE)) = 0;
 	insert(s, z);
+	setenv(s, z, 1);
 }
 
 static int gt2tok(char *s)
