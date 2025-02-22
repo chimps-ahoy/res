@@ -18,13 +18,15 @@ do {\
 	z += strspn(z, WSPACE);\
 } while (0)
 
-static void define(char *k, char *v)
+static void
+define(char *k, char *v)
 {
 	insert(k, v);
 	setenv(k, v, 1);
 }
 
-static void defline(char *s)
+static void
+defline(char *s)
 {
 	char *z;
 	SPLIT(s, z);
@@ -32,7 +34,8 @@ static void defline(char *s)
 	define(s, z);
 }
 
-static int gt2tok(char *s)
+static int
+gt2tok(char *s)
 {
 	char *z;
 	SPLIT(s, z);
@@ -40,7 +43,8 @@ static int gt2tok(char *s)
 }
 #undef SPLIT
 
-static void sheval(char *s, char **buf, size_t *lbuf)
+static void
+sheval(char *s, char **buf, size_t *lbuf)
 {
 	FILE *p = popen(s, "r");
 	if (!p)
@@ -59,7 +63,8 @@ static void sheval(char *s, char **buf, size_t *lbuf)
 		memset(*buf, 0, *lbuf);
 }
 
-static void eval(char *s)
+static void
+eval(char *s)
 {
 	if (!s || !*s)
 		return;
@@ -79,7 +84,8 @@ static void eval(char *s)
 	free(val);
 }
 
-static void expand(char *s)
+static void
+expand(char *s)
 {
 	if (!s || !*s)
 		return;
@@ -100,7 +106,8 @@ static void expand(char *s)
 	expand(end);
 }
 
-int main(int argc, char **argv)
+int
+main(int argc, char **argv)
 {
 	if (!inittab(13, 1))
 		return EXIT_FAILURE;

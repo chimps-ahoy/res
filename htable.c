@@ -11,7 +11,8 @@ static struct entry {
 size_t k    = 13;
 size_t epk  = 1;
 
-static unsigned long hash(char const *s)
+static unsigned long
+hash(char const *s)
 {
 	unsigned long hash = 0;
 	int c;
@@ -22,7 +23,8 @@ static unsigned long hash(char const *s)
 	return hash;
 }
 
-static int ecompar(void const *_a, void const *_b)
+static int
+ecompar(void const *_a, void const *_b)
 {
 	struct entry *a = (struct entry *)_a;
 	struct entry *b = (struct entry *)_b;
@@ -35,7 +37,8 @@ static int ecompar(void const *_a, void const *_b)
 	return strcmp(a->k, b->k);
 }
 
-char const *lookup(char const *s)
+char const
+*lookup(char const *s)
 {
 	char *_z = strdup(s);
 	if (!_z) return NULL;
@@ -51,7 +54,8 @@ char const *lookup(char const *s)
 		return NULL;
 }
 
-static void resize(size_t n)
+static void
+resize(size_t n)
 {
 	size_t t = epk * k;
 	epk += n;
@@ -67,7 +71,8 @@ static void resize(size_t n)
 	}
 }
 
-static void _insert(char const *s, char const *v, unsigned long i)
+static void
+_insert(char const *s, char const *v, unsigned long i)
 {
 	struct entry *entries = htable + i * epk;
 	for (size_t i = 0; i < epk; i++) {
@@ -84,7 +89,8 @@ static void _insert(char const *s, char const *v, unsigned long i)
 	_insert(s, v, i);
 }
 
-void insert(char const *s, char const *v)
+void
+insert(char const *s, char const *v)
 {
 	unsigned long i = hash(s) % k;
 	char *s2 = strdup(s), *v2 = strdup(v);
@@ -92,7 +98,8 @@ void insert(char const *s, char const *v)
 	_insert(s2, v2, i);
 }
 
-int inittab(size_t ik, size_t iepk)
+int
+inittab(size_t ik, size_t iepk)
 {
 	k = ik;
 	epk = iepk;
