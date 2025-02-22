@@ -4,7 +4,7 @@
 #include "util.h"
 #include "htable.h"
 
-#define DEFINE '@'
+#define DEF    "-@"
 #define LDELIM "{{"
 #define RDELIM "}}"
 
@@ -18,13 +18,18 @@ do {\
 	z += strspn(z, WSPACE);\
 } while (0)
 
-static void define(char *s)
+static void define(char *k, char *v)
+{
+	insert(k, v);
+	setenv(k, v, 1);
+}
+
+static void defline(char *s)
 {
 	char *z;
 	SPLIT(s, z);
 	*(s + strcspn(s, WSPACE)) = 0;
-	insert(s, z);
-	setenv(s, z, 1);
+	define(s, z);
 }
 
 static int gt2tok(char *s)
@@ -95,21 +100,28 @@ static void expand(char *s)
 	expand(end);
 }
 
-int main(void)
+int main(int argc, char **argv)
 {
 	if (!inittab(13, 1))
 		return EXIT_FAILURE;
+
+	for (int i = 1; i < argc; i++)
+		if (!strncmp(DEF, argv[i++], sizeof(DEF) - 1))
+			define(argv[i - 1] + sizeof(DEF) - 1,
+			      (i < argc) ? argv[i] : "");
+
 	ssize_t endl;
 	char  *line = NULL;
 	size_t llen = 0;
 	while ((endl = getline(&line, &llen, stdin)) > 0) {
 		char *strt = line + strspn(line, WSPACE);
-		if (*strt == DEFINE) {
+		if (*strt == DEF[1]) {
 			line[endl - 1] = 0;
-			define(strt + 1);
+			defline(strt + 1);
 		} else {
 			expand(line);
 		}
 	}
+
 	return EXIT_SUCCESS;
 }
